@@ -1,41 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { Button, Card, Image } from 'semantic-ui-react';
+import { Button, Card } from "semantic-ui-react";
 import ProductService from "../services/productService";
 
 export default function ProductDetail() {
-    let { name } = useParams();
+  let { id } = useParams();
 
-    const [product, setProduct] = useState({});
-    
-    useEffect(()=> {
-        const productService =  new ProductService()
-        productService.getByProductName(name).then(result=>setProduct(result.data.data));
-    },[name]);
- 
+  const [isLoading, setIsLoading] = useState(true);
+  const [prod, setProduct] = useState({});
+
+  useEffect(() => {
+    const productService = new ProductService();
+    productService
+      .getByProductId(id)
+      .then((result) =>  setProduct(result.data.data));
+    setIsLoading(false);
+  }, [id]);
+
   return (
     <div>
       <Card.Group>
-        <Card fluid >
-          <Card.Content>
-            
-            <Card.Header>{product.productName}</Card.Header>
-             <Card.Meta>{product.category?.categoryName}</Card.Meta>
-             
+        <Card fluid>
+          {isLoading?(<div> Loading...</div>):(<Card.Content>
+            <Card.Header>{prod.productName}</Card.Header>
+            <Card.Meta>{prod.category?.categoryName}</Card.Meta>
+
             <Card.Description>
-             {product.quantityPerUnit}
+              Steve wants to add you to the group <strong>best friends</strong>
             </Card.Description>
-          </Card.Content>
+          </Card.Content>)}
           <Card.Content extra>
             <div className="ui two buttons">
               <Button basic color="green">
-                Sepete Ekle
+                Approve
               </Button>
-              
+              <Button basic color="red">
+                Decline
+              </Button>
             </div>
           </Card.Content>
         </Card>
-        
       </Card.Group>
     </div>
   );
