@@ -26,16 +26,13 @@ export default function ProductDetail() {
             <Card.Meta>{prod.category?.categoryName}</Card.Meta>
 
             <Card.Description>
-              Steve wants to add you to the group <strong>best friends</strong>
+              {prod.quantityPerUnit}
             </Card.Description>
           </Card.Content>)}
           <Card.Content extra>
             <div className="ui two buttons">
               <Button basic color="green">
-                Approve
-              </Button>
-              <Button basic color="red">
-                Decline
+                Sepete Ekle
               </Button>
             </div>
           </Card.Content>
