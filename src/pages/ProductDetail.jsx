@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { Button, Card } from "semantic-ui-react";
+import { Button, Card, Dimmer, Loader } from "semantic-ui-react";
 import ProductService from "../services/productService";
 
 export default function ProductDetail() {
@@ -11,19 +11,20 @@ export default function ProductDetail() {
 
   useEffect(() => {
     const productService = new ProductService();
-    productService
-      .getByProductId(id)
-      .then((result) =>  setProduct(result.data.data));
-    setIsLoading(false);
+    const load= async()=>{
+      const result = await productService.getByProductId(id);
+      setProduct(result.data.data);
+      setIsLoading(false);}
+      load();
   }, [id]);
 
   return (
     <div>
       <Card.Group>
         <Card fluid>
-          {isLoading?(<div> Loading...</div>):(<Card.Content>
+          {isLoading?(<Dimmer active inverted> <Loader inverted/></Dimmer>):(<Card.Content>
             <Card.Header>{prod.productName}</Card.Header>
-            <Card.Meta>{prod.category?.categoryName}</Card.Meta>
+            <Card.Meta>{prod.category.categoryName}</Card.Meta>
 
             <Card.Description>
               {prod.quantityPerUnit}
