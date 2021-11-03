@@ -1,0 +1,1 @@
+export const cartItems=[{quantity:1, product:{id:1056,productName:"Çubuk kraker"}}]
